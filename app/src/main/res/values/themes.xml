@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.TittleDeedVerifier" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/zim_green</item>
+        <item name="android:statusBarColor">@color/zim_green</item>
+    </style>
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/zim_white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logos</item>
+        <item name="postSplashScreenTheme">@style/Theme.TittleDeedVerifier</item>
+    </style>
+</resources>

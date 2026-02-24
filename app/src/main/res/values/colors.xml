@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="zim_green">#046A38</color>
+    <color name="zim_yellow">#FCD116</color>
+    <color name="zim_red">#DE2010</color>
+    <color name="zim_black">#000000</color>
+    <color name="zim_white">#FFFFFF</color>
+    <color name="primary_dark">#034D29</color>
+</resources>

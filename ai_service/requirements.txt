@@ -1,0 +1,59 @@
+# Core AI and ML libraries
+tensorflow>=2.15.0
+numpy>=1.24.0
+opencv-python>=4.8.0
+scikit-image>=0.21.0
+scikit-learn>=1.3.0
+
+# Web framework and utilities
+flask>=2.3.0
+flask-cors>=4.0.0
+werkzeug>=2.3.0
+
+# Image processing and analysis
+pillow>=10.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Data processing and analysis
+pandas>=2.0.0
+scipy>=1.11.0
+
+# OCR and text extraction
+pytesseract>=0.3.10
+easyocr>=1.7.0
+
+# File handling and utilities
+python-magic>=0.4.27
+pathlib>=1.0.1
+
+# Logging and monitoring
+loguru>=0.7.0
+
+# Development and testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+black>=23.0.0
+flake8>=6.0.0
+
+# Performance optimization
+numba>=0.57.0
+cython>=3.0.0
+
+# Optional: GPU support (if using CUDA)
+# tensorflow-gpu>=2.15.0
+
+# Optional: Additional computer vision
+imutils>=0.5.4
+dlib>=19.24.0
+
+# Optional: Deep learning utilities
+keras>=2.15.0
+torch>=2.1.0  # PyTorch (alternative to TensorFlow)
+
+# Optional: Model serving
+# tensorflow-serving-api>=2.15.0
+
+# Optional: Data visualization
+plotly>=5.17.0
+bokeh>=3.3.0

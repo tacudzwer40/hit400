@@ -1,0 +1,94 @@
+<resources>
+    <string name="app_name">DeedGuard Zimbabwe</string>
+    <string name="app_subtitle">Deed Verification</string>
+    
+    <!-- Main Activity -->
+    <string name="scan_title">Document Scanner</string>
+    <string name="scan_subtitle">Scan Zimbabwean Land Title Deeds</string>
+    <string name="scan_button">SCAN DEED</string>
+    <string name="scan_button_disabled">🔴 OFFLINE</string>
+    <string name="online_status">🟢 Online</string>
+    <string name="offline_status">🔴 Offline</string>
+    <string name="no_internet">No internet connection available</string>
+    <string name="checking_connection">Checking connection...</string>
+    <string name="camera_permission_required">Camera permission is required to scan documents</string>
+    <string name="grant_permission">Grant Permission</string>
+    <string name="exit_app">Exit App</string>
+    
+    <!-- Preview Activity -->
+    <string name="preview_title">Preview Document</string>
+    <string name="preview_subtitle">Review the captured image before uploading</string>
+    <string name="retake_photo">Retake Photo</string>
+    <string name="upload_to_cloud">UPLOAD TO CLOUD</string>
+    <string name="image_preview">Image Preview</string>
+    <string name="uploading">Uploading...</string>
+    <string name="analyzing">Analyzing document...</string>
+    <string name="please_wait">Please wait while we analyze your document</string>
+    
+    <!-- Result Activity -->
+    <string name="result_title">Verification Results</string>
+    <string name="verified_title">VERIFIED</string>
+    <string name="fraud_title">FRAUD DETECTED</string>
+    <string name="genuine_deed">This document appears to be genuine</string>
+    <string name="fraudulent_deed">This document shows signs of fraud</string>
+    <string name="fraud_score">Fraud Score: %1$d%%</string>
+    <string name="deed_number">Deed Number: %1$s</string>
+    <string name="property_district">Property District: %1$s</string>
+    <string name="registered_owner">Registered Owner: %1$s</string>
+    <string name="date_of_registration">Date of Registration: %1$s</string>
+    <string name="analysis_reasons">Analysis Reasons:</string>
+    <string name="scan_another">Scan Another Deed</string>
+    <string name="back_to_home">Back to Home</string>
+    
+    <!-- Error Messages -->
+    <string name="error_upload_failed">Failed to upload image. Please try again.</string>
+    <string name="error_analysis_failed">Failed to analyze document. Please try again.</string>
+    <string name="error_network_error">Network error. Please check your connection.</string>
+    <string name="error_invalid_response">Invalid response from server.</string>
+    <string name="error_camera_error">Camera error. Please try again.</string>
+    <string name="error_permission_denied">Permission denied. Please grant camera permission.</string>
+    
+    <!-- Success Messages -->
+    <string name="upload_success">Image uploaded successfully</string>
+    <string name="analysis_complete">Analysis completed successfully</string>
+    <string name="report_generated">Verification report generated</string>
+    
+    <!-- App Information -->
+    <string name="app_description">Verify the authenticity of Zimbabwean land title deeds using AI-powered analysis</string>
+    <string name="powered_by">Powered by AI Technology</string>
+    <string name="version">Version 1.0</string>
+    
+    <!-- Dashboard Strings -->
+    <string name="scan_history">Scan History</string>
+    <string name="land_registry_map">Land Registry Map</string>
+    <string name="latest_verification_result">Latest Verification Result</string>
+    <string name="scanned_today">Scanned today at 09:42 AM</string>
+    <string name="verified_authentic">Verified Authentic</string>
+    <string name="analysis_results">Analysis Results</string>
+    <string name="property_location">Property Location</string>
+    <string name="recent_scans">Recent Scans</string>
+    <string name="view_all">View All</string>
+    <string name="camera_ready">Camera Ready</string>
+    <string name="tap_to_scan_deed">Tap to Scan Deed</string>
+    <string name="fraud_detected">Fraud Detected</string>
+    <string name="review_pending">Review Pending</string>
+    
+    <!-- Zimbabwe Colors -->
+    <string name="zimbabwe_green">#046A38</string>
+    <string name="zimbabwe_gold">#FCD116</string>
+    <string name="zimbabwe_black">#000000</string>
+    <string name="zimbabwe_white">#FFFFFF</string>
+    <string name="zimbabwe_red">#DE2010</string>
+    
+    <!-- New Strings -->
+    <string name="sign_in_to_save">Sign in to save your scan records</string>
+    <string name="user_profile">User Profile</string>
+    <string name="scanned_deeds">Scanned Deeds</string>
+    <string name="email">Email</string>
+    <string name="scan_deed">Scan Deed</string>
+    <string name="camera_preview">Camera Preview</string>
+    <string name="map_view">Map View</string>
+    <string name="genuine">Genuine</string>
+    <string name="fraudulent">Fraudulent</string>
+    <string name="sign_in_prompt">Please sign in to save your verification records</string>
+</resources>
