@@ -1,0 +1,6 @@
+{
+    "appId": "zw.gov.deedguard",
+    "appName": "DeedGuard Zimbabwe",
+    "webDir": "dist",
+    "bundledWebRuntime": false
+}

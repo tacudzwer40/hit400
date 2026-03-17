@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">DeedGuard Zimbabwe</string>
+    <string name="title_activity_main">DeedGuard Zimbabwe</string>
+    <string name="package_name">zw.gov.deedguard</string>
+    <string name="custom_url_scheme">zw.gov.deedguard</string>
+</resources>
