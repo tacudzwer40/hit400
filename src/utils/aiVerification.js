@@ -1,4 +1,4 @@
-import * as tf from '@tensorflow/tfjs';
+import * as tf from '@tensorflow/tfjs'; tf.setBackend('cpu');
 import * as ort from 'onnxruntime-web';
 
 const MODEL_CACHE = {
@@ -238,12 +238,6 @@ export const extractSignaturesAndStamps = async (files) => {
   }
 
   return results;
-};
-      img.src = ev.target.result;
-    };
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
 };
 
 // --- Model-driven verification helpers ---

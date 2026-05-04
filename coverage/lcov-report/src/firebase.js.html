@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/35</span>
+                <span class='fraction'>0/30</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/15</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/33</span>
+                <span class='fraction'>0/28</span>
             </div>
         
             
@@ -148,6 +148,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -160,18 +165,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -182,6 +181,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -218,33 +218,42 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged, getIdTokenResult } from "firebase/auth";
 import {
-    getFirestore,
-    enableIndexedDbPersistence
+    initializeFirestore,
+    persistentLocalCache,
+    persistentMultipleTabManager,
+    doc,
+    getDoc
 } from "firebase/firestore";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 &nbsp;
+// Replace with your actual Firebase project config
+// Get this from Firebase Console &gt; Project Settings &gt; General &gt; Your apps
 const firebaseConfig = <span class="cstat-no" title="statement not covered" >{</span>
-    apiKey: "AIzaSyCAtNrHwvvuzr9GazY307ayaPsIWEPIw1Y",
-    authDomain: "deedguard-zimbabwe-1fd3a.firebaseapp.com",
-    projectId: "deedguard-zimbabwe-1fd3a",
-    storageBucket: "deedguard-zimbabwe-1fd3a.firebasestorage.app",
-    messagingSenderId: "248997654810",
-    appId: "1:248997654810:web:ecf64ac6d81984e2c3fca3"
+  apiKey: "AIzaSyCAtNrHwvvuzr9GazY307ayaPsIWEPIw1Y",
+  authDomain: "deedguard-zimbabwe-1fd3a.firebaseapp.com",
+  projectId: "deedguard-zimbabwe-1fd3a",
+  storageBucket: "deedguard-zimbabwe-1fd3a.firebasestorage.app",
+  messagingSenderId: "248997654810",
+  appId: "1:248997654810:web:ecf64ac6d81984e2c3fca3"
 };
-&nbsp;
+// Initialize Firebase
 const app = <span class="cstat-no" title="statement not covered" >initializeApp(firebaseConfig);</span>
 export const auth = <span class="cstat-no" title="statement not covered" >getAuth(app);</span>
 export const googleProvider = <span class="cstat-no" title="statement not covered" >new GoogleAuthProvider();</span>
-const db = <span class="cstat-no" title="statement not covered" >getFirestore(app);</span>
+&nbsp;
+// Initialize Firestore with modern local cache persistence (removes deprecation warning)
+const db = <span class="cstat-no" title="statement not covered" >initializeFirestore(app, {</span>
+  localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
+});
 &nbsp;
 // Configure Google OAuth
 <span class="cstat-no" title="statement not covered" >googleProvider.setCustomParameters({</span>
   prompt: 'select_account'
 });
 &nbsp;
-// OAuth sign-in functions
+// Real OAuth sign-in functions
 export const signInWithGoogle = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const result = <span class="cstat-no" title="statement not covered" >await signInWithPopup(auth, googleProvider);</span>
@@ -253,15 +262,6 @@ export const signInWithGoogle = <span class="cstat-no" title="statement not cove
 <span class="cstat-no" title="statement not covered" >    throw new Error('Google sign-in failed: ' + error.message);</span>
   }
 };
-&nbsp;
-// Enable offline persistence out-of-the-box
-<span class="cstat-no" title="statement not covered" >enableIndexedDbPersistence(db).catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (err.code === 'failed-precondition') {</span>
-<span class="cstat-no" title="statement not covered" >        console.warn('Multiple tabs open, persistence can only be enabled in one tab at a a time.');</span>
-    } else <span class="cstat-no" title="statement not covered" >if (err.code === 'unimplemented') {</span>
-<span class="cstat-no" title="statement not covered" >        console.warn('The current browser does not support all of the features required to enable persistence');</span>
-    }
-});
 &nbsp;
 // Initialize Firebase Cloud Messaging (only in supported browsers)
 const canUseMessaging = <span class="cstat-no" title="statement not covered" >typeof window !== 'undefined' &amp;&amp; typeof navigator !== 'undefined' &amp;&amp; 'serviceWorker' in navigator;</span>
@@ -301,7 +301,7 @@ export { db, app, messaging };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-03-14T18:30:09.464Z
+                at 2026-04-27T07:41:11.026Z
             </div>
         <script src="../prettify.js"></script>
         <script>

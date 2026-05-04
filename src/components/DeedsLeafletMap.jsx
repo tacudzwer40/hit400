@@ -158,8 +158,8 @@ const MarkerClusterLayer = ({ deeds, showClusters, dateRange }) => {
   return null;
 };
 
-const DeedsLeafletMap = ({ deeds = [], history = [] }) => {
-  const [showHeatmap, setShowHeatmap] = useState(false);
+const DeedsLeafletMap = ({ deeds = [], history = [], hideControls = false, defaultHeatmap = false }) => {
+  const [showHeatmap, setShowHeatmap] = useState(defaultHeatmap);
   const [showClusters, setShowClusters] = useState(true);
   const [dateRange, setDateRange] = useState(null);
   const [startDate, setStartDate] = useState('');
@@ -183,7 +183,8 @@ const DeedsLeafletMap = ({ deeds = [], history = [] }) => {
 
   return (
     <div style={{ height: '500px', position: 'relative' }}>
-      <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 1000, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      {!hideControls && (
+        <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 1000, display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <button
           onClick={() => setShowHeatmap(!showHeatmap)}
           className={`btn ${showHeatmap ? 'btn-primary' : 'btn-secondary'}`}
@@ -231,10 +232,12 @@ const DeedsLeafletMap = ({ deeds = [], history = [] }) => {
           )}
         </div>
       </div>
+      )}
       <MapContainer center={[-17.8252, 31.0335]} zoom={6} style={{ height: '100%', width: '100%' }}>
         <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenMap</a> contributors'
+          url="https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
+          subdomains={['mt0','mt1','mt2','mt3']}
+          attribution="&copy; Google Maps"
         />
         <HeatmapLayer data={dataToShow} visible={showHeatmap} dateRange={dateRange} />
         <MarkerClusterLayer deeds={dataToShow} showClusters={showClusters} dateRange={dateRange} />

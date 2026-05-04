@@ -1,8 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, signOut, onAuthStateChanged, getIdTokenResult } from "firebase/auth";
 import {
-    getFirestore,
-    enableIndexedDbPersistence,
+    initializeFirestore,
+    persistentLocalCache,
+    persistentMultipleTabManager,
     doc,
     getDoc
 } from "firebase/firestore";
@@ -22,7 +23,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
-const db = getFirestore(app);
+
+// Initialize Firestore with modern local cache persistence (removes deprecation warning)
+const db = initializeFirestore(app, {
+  localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
+});
 
 // Configure Google OAuth
 googleProvider.setCustomParameters({
@@ -38,15 +43,6 @@ export const signInWithGoogle = async () => {
     throw new Error('Google sign-in failed: ' + error.message);
   }
 };
-
-// Enable offline persistence out-of-the-box
-enableIndexedDbPersistence(db).catch((err) => {
-    if (err.code === 'failed-precondition') {
-        console.warn('Multiple tabs open, persistence can only be enabled in one tab at a a time.');
-    } else if (err.code === 'unimplemented') {
-        console.warn('The current browser does not support all of the features required to enable persistence');
-    }
-});
 
 // Initialize Firebase Cloud Messaging (only in supported browsers)
 const canUseMessaging = typeof window !== 'undefined' && typeof navigator !== 'undefined' && 'serviceWorker' in navigator;

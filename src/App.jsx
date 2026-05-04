@@ -20,7 +20,11 @@ const PublicRoute = ({ children }) => {
   }
 
   if (user) {
-    return <Navigate to={user.role === 'admin' ? '/admin' : '/user'} replace />;
+    if (user.role === 'user' && (!user.nationalId || !user.username)) {
+      // Allow them to stay on the public route so Login can render the completion form
+    } else {
+      return <Navigate to={user.role === 'admin' ? '/admin' : '/user'} replace />;
+    }
   }
 
   return children;
@@ -42,6 +46,11 @@ const ProtectedRoute = ({ children, requiredRole }) => {
   }
 
   if (!user) {
+    return <Navigate to="/" replace />;
+  }
+
+  // Prevent accessing protected routes before profile completion
+  if (user.role === 'user' && (!user.nationalId || !user.username)) {
     return <Navigate to="/" replace />;
   }
 

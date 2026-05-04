@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.57% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/14</span>
+                <span class='fraction'>0/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/12</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -103,27 +103,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -137,27 +137,27 @@
  * Create a deterministic hash for privacy-preserving matching.
  * This allows you to compare values without storing or sharing the raw data.
  */
-export const hashPersonalData = (value, salt = 'deedguard') =&gt; {
-  if (!value) return '';
-  const normalized = value.toString().trim().toLowerCase();
-  const salted = `${salt}:${normalized}`;
-  return CryptoJS.SHA256(salted).toString();
+export const hashPersonalData = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(v</span>alue, salt = <span class="branch-0 cbranch-no" title="branch not covered" >'deedguard')</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  if (!value) <span class="cstat-no" title="statement not covered" >return '';</span></span>
+  const normalized = <span class="cstat-no" title="statement not covered" >value.toString().trim().toLowerCase();</span>
+  const salted = <span class="cstat-no" title="statement not covered" >`${salt}:${normalized}`;</span>
+<span class="cstat-no" title="statement not covered" >  return CryptoJS.SHA256(salted).toString();</span>
 };
 &nbsp;
 /**
  * Right-to-be-forgotten helper: remove local storage and (optionally) any related backend records.
  * This should be called after the user explicitly requests data removal.
  */
-export const clearPersonalStorage = () =&gt; {
-  localStorage.removeItem('dg_user');
-  localStorage.removeItem('dg_session');
-  localStorage.removeItem('gemini_api_key');
+export const clearPersonalStorage = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  localStorage.removeItem('dg_user');</span>
+<span class="cstat-no" title="statement not covered" >  localStorage.removeItem('dg_session');</span>
+<span class="cstat-no" title="statement not covered" >  localStorage.removeItem('gemini_api_key');</span>
 };
 &nbsp;
 /**
  * Reduce deed data to the minimum fields needed for verification (privacy first).
  */
-export const minimalDeedPayload = <span class="fstat-no" title="function not covered" >(d</span>eed) =&gt; {
+export const minimalDeedPayload = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(d</span>eed) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  if (!deed) <span class="cstat-no" title="statement not covered" >return null;</span></span>
 <span class="cstat-no" title="statement not covered" >  return {</span>
     deedNumber: deed.deedNumber,
@@ -172,7 +172,7 @@ export const minimalDeedPayload = <span class="fstat-no" title="function not cov
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-03-14T18:30:09.464Z
+                at 2026-04-27T07:41:11.026Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

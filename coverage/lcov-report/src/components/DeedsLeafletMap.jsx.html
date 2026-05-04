@@ -32,7 +32,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/67</span>
+                <span class='fraction'>0/71</span>
             </div>
         
             
@@ -362,9 +362,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -517,6 +514,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -558,6 +556,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -622,9 +622,6 @@ const geocodeZimbabweLocation = <span class="cstat-no" title="statement not cove
     'marondera': [-18.1833, 31.5500],
     'hwange': [-18.3667, 26.4833],
     'victoria falls': [-17.9333, 25.8333],
-    'kariba': [-16.5167, 28.8000],
-    'karoi': [-16.8167, 29.6833],
-    'chinhoyi': [-17.3667, 30.1833],
     'kariba': [-16.5167, 28.8000]
   };
 &nbsp;
@@ -754,8 +751,8 @@ const MarkerClusterLayer = <span class="cstat-no" title="statement not covered" 
 <span class="cstat-no" title="statement not covered" >  return null;</span>
 };
 &nbsp;
-const DeedsLeafletMap = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> deeds = <span class="branch-0 cbranch-no" title="branch not covered" >[],</span> history = <span class="branch-0 cbranch-no" title="branch not covered" >[] </span>}) =&gt; {</span>
-  const [showHeatmap, setShowHeatmap] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+const DeedsLeafletMap = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> deeds = <span class="branch-0 cbranch-no" title="branch not covered" >[],</span> history = <span class="branch-0 cbranch-no" title="branch not covered" >[],</span> hideControls = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span> defaultHeatmap = <span class="branch-0 cbranch-no" title="branch not covered" >false </span>}) =&gt; {</span>
+  const [showHeatmap, setShowHeatmap] = <span class="cstat-no" title="statement not covered" >useState(defaultHeatmap);</span>
   const [showClusters, setShowClusters] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
   const [dateRange, setDateRange] = <span class="cstat-no" title="statement not covered" >useState(null);</span>
   const [startDate, setStartDate] = <span class="cstat-no" title="statement not covered" >useState('');</span>
@@ -779,7 +776,8 @@ const DeedsLeafletMap = <span class="cstat-no" title="statement not covered" ><s
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;div style={{ height: '500px', position: 'relative' }}&gt;
-      &lt;div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 1000, display: 'flex', flexDirection: 'column', gap: '10px' }}&gt;
+      {!hideControls &amp;&amp; (
+        &lt;div style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 1000, display: 'flex', flexDirection: 'column', gap: '10px' }}&gt;
         &lt;button
           onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setShowHeatmap(!showHeatmap)}</span>
           className={`btn ${showHeatmap ? 'btn-primary' : 'btn-secondary'}`}
@@ -827,10 +825,12 @@ const DeedsLeafletMap = <span class="cstat-no" title="statement not covered" ><s
           )}
         &lt;/div&gt;
       &lt;/div&gt;
+      )}
       &lt;MapContainer center={[-17.8252, 31.0335]} zoom={6} style={{ height: '100%', width: '100%' }}&gt;
         &lt;TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&amp;copy; &lt;a href="https://www.openstreetmap.org/copyright"&gt;OpenMap&lt;/a&gt; contributors'
+          url="https://{s}.google.com/vt/lyrs=m&amp;x={x}&amp;y={y}&amp;z={z}"
+          subdomains={['mt0','mt1','mt2','mt3']}
+          attribution="&amp;copy; Google Maps"
         /&gt;
         &lt;HeatmapLayer data={dataToShow} visible={showHeatmap} dateRange={dateRange} /&gt;
         &lt;MarkerClusterLayer deeds={dataToShow} showClusters={showClusters} dateRange={dateRange} /&gt;
@@ -862,7 +862,7 @@ export default DeedsLeafletMap;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-03-14T18:30:09.464Z
+                at 2026-04-27T07:41:11.026Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

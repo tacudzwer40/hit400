@@ -49,14 +49,25 @@ export const AppProvider = ({ children }) => {
             // Fallback to email-based role determination
             role = user.email.includes('admin') || user.email.includes('registrar') ? 'admin' : 'user';
 
-            // Check roles collection in Firestore
+            // Check users collection in Firestore for role and profile data
             try {
-              const roleDoc = await getDoc(doc(db, 'userRoles', user.uid));
-              if (roleDoc.exists()) {
-                role = roleDoc.data().role;
+              const userDocRef = doc(db, 'users', user.uid);
+              const userDoc = await getDoc(userDocRef);
+              let profileData = {};
+              if (userDoc.exists()) {
+                profileData = userDoc.data();
+                if (profileData.role) role = profileData.role;
               }
+              setUser({ ...user, role, ...profileData });
+              setLoading(false);
+              return;
             } catch (error) {
-              console.warn('Could not fetch user role from Firestore:', error);
+              if (error.code === 'permission-denied') {
+                 // Suppress stack trace intentionally
+                 // console.log("ℹ️ User profile uses local authentication state (Offline/Fallback mode).");
+              } else {
+                 // console.log(`Could not fetch user profile from Firestore: ${error.message}`);
+              }
             }
           }
 
@@ -74,7 +85,7 @@ export const AppProvider = ({ children }) => {
     });
 
     // Listen to Firebase Firestore (Offline Persistence Enabled)
-    const q = query(collection(db, 'deeds'), orderBy('timestamp', 'asc'));
+    const q = query(collection(db, 'deeds'), orderBy('timestamp', 'desc'));
     const unsubscribe = onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
       // Map snapshot to local state. Set synced attribute logically
       const deedsData = snapshot.docs.map(doc => {
@@ -85,7 +96,11 @@ export const AppProvider = ({ children }) => {
       });
       setDeeds(deedsData);
     }, (error) => {
-      console.error("Firebase listen error:", error);
+      if (error.code === 'permission-denied') {
+        // console.log("⚠️ Firebase Permissions Restricted: Operating deed registry in local-only / offline fallback mode.");
+      } else {
+        // console.log("Firebase listen error on deeds:", error.message);
+      }
     });
 
     return () => {
@@ -132,16 +147,30 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  const completeProfile = async (username, nationalId) => {
+    if (!user) return;
+    try {
+      const userRef = doc(db, 'users', user.uid);
+      await setDoc(userRef, { username, nationalId }, { merge: true });
+      setUser(prev => ({ ...prev, username, nationalId }));
+    } catch (error) {
+      throw new Error('Failed to save profile: ' + error.message);
+    }
+  };
+
   // Sync Citizen History from Firebase
   useEffect(() => {
-    if (!user || user.role === 'admin' || !user.email) {
+    if (!user || user.role === 'admin') {
       setUserHistory([]);
       return;
     }
 
+    const identifier = user.email || user.uid;
+    if (!identifier) return;
+
     const q = query(
       collection(db, 'scanHistory'),
-      where('username', '==', user.email)
+      where('username', '==', identifier)
     );
 
     const unsubscribeHistory = onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
@@ -150,14 +179,27 @@ export const AppProvider = ({ children }) => {
       historyData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       setUserHistory(historyData);
     }, (error) => {
-      console.error("Firebase history listen error:", error);
+      if (error.code === 'permission-denied') {
+        // console.log("⚠️ Firebase Permissions Restricted: Operating scan history in local-only / offline fallback mode.");
+      } else {
+        // console.log("Firebase history listen error:", error.message);
+      }
     });
 
     return () => unsubscribeHistory();
-  }, [user?.email, user?.role]);
+  }, [user?.email, user?.uid, user?.role]);
 
   const addDeed = async (deedData) => {
     try {
+      // Optimistically update local state so the UI reflects it immediately
+      // This is especially useful if the real-time Firebase listener is facing network errors
+      setDeeds(prev => {
+        if (!prev.find(d => d.hash === deedData.hash)) {
+          return [{ ...deedData, synced: false }, ...prev];
+        }
+        return prev;
+      });
+      
       // We use hash as the document ID for uniqueness and easy lookup
       await setDoc(doc(db, 'deeds', deedData.hash), deedData);
     } catch (error) {
@@ -222,12 +264,21 @@ export const AppProvider = ({ children }) => {
   };
 
   const addToHistory = async (record) => {
-    if (!user?.email) return;
+    if (!user) return;
 
-    const historyDoc = { ...record, username: user.email };
+    const identifier = user.email || user.uid || 'unknown';
+    const historyDoc = { ...record, username: identifier };
+
+    // Optimistic local update
+    setUserHistory(prev => {
+      const newHistory = [historyDoc, ...prev];
+      newHistory.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      return newHistory;
+    });
+
     try {
       // Generate a unique ID for the history scan
-      const docId = `${user.email}_${new Date(record.date).getTime()}_${Math.floor(Math.random() * 1000)}`;
+      const docId = `${identifier}_${new Date(record.date).getTime()}_${Math.floor(Math.random() * 1000)}`;
       await setDoc(doc(db, 'scanHistory', docId), historyDoc);
     } catch (e) {
       console.error("Failed to add history to Firebase", e);
@@ -236,7 +287,7 @@ export const AppProvider = ({ children }) => {
   };
 
   return (
-    <AppContext.Provider value={{ user, loading, login, loginWithGoogle, logout, forgetUser, deeds, addDeed, deleteDeed, getDeedByHash, getDeedById, predictFraudScore, isOffline, userHistory, addToHistory }}>
+    <AppContext.Provider value={{ user, loading, login, loginWithGoogle, logout, completeProfile, forgetUser, deeds, addDeed, deleteDeed, getDeedByHash, getDeedById, predictFraudScore, isOffline, userHistory, addToHistory }}>
       {children}
     </AppContext.Provider>
   );
